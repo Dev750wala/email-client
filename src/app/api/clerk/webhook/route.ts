@@ -66,7 +66,7 @@ export interface HTTPRequest {
 export const POST = async (req: Request) => {
     const req1 = await req.json()
     const data: RequestBody = req1
-    // console.log("webhook data", data);
+    console.log("webhook data", data);
 
     const emailAddress = data.data.email_addresses[0]?.email_address! as string
     const firstname = data.data.first_name
