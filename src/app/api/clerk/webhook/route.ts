@@ -28,11 +28,11 @@ export interface Data {
     primary_email_address_id: string;
     primary_phone_number_id:  null;
     primary_web3_wallet_id:   null;
-    private_metadata:         Metadata;
+    private_metadata:         unknown;
     profile_image_url:        string;
-    public_metadata:          Metadata;
+    public_metadata:          unknown;
     two_factor_enabled:       boolean;
-    unsafe_metadata:          Metadata;
+    unsafe_metadata:          unknown;
     updated_at:               number;
     username:                 null;
     web3_wallets:             any[];
@@ -51,8 +51,8 @@ export interface Verification {
     strategy: string;
 }
 
-export interface Metadata {
-}
+// export interface Metadata {
+// }
 
 export interface EventAttributes {
     http_request: HTTPRequest;
@@ -68,7 +68,7 @@ export const POST = async (req: Request) => {
     const data: RequestBody = req1
     // console.log("webhook data", data);
 
-    const emailAddress = data.data.email_addresses[0]?.email_address as string
+    const emailAddress = data.data.email_addresses[0]?.email_address! as string
     const firstname = data.data.first_name
     const lastname = data.data.last_name
     const imageUrl = data.data.image_url
