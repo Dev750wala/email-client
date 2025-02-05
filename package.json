@@ -29,6 +29,7 @@
     "@trpc/client": "^11.0.0-rc.446",
     "@trpc/react-query": "^11.0.0-rc.446",
     "@trpc/server": "^11.0.0-rc.446",
+    "@vercel/functions": "^2.0.0",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -44,6 +45,7 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.4",
     "@types/eslint": "^8.56.10",
     "@types/node": "^22.13.0",
     "@types/react": "^18.3.3",
