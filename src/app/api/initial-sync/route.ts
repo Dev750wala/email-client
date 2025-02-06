@@ -21,4 +21,18 @@ export const POST = async (req: NextRequest) => {
     if(!response) return NextResponse.json({message: 'Failed to perform initial sync'}, {status: 500});
 
     const { emails, deltaToken } = response
+    // console.log('Emails', emails.length);
+    
+    // await db.account.update({
+    //     where: {
+    //         id: accountId,
+    //     }, 
+    //     data: {
+    //         nextDeltaToken: deltaToken
+    //     }
+    // })
+
+    // await syncEmailsToDatabase(emails)
+    console.log('Initial sync complete', deltaToken);
+    return NextResponse.json({success: true}, {status: 200});
 }
