@@ -16,4 +16,9 @@ export const POST = async (req: NextRequest) => {
     if(!dbAccount) return NextResponse.json({message: 'Account not found'}, {status: 404});
 
     const account = new Account(dbAccount.accessToken)
+    const response = await account.performInitialSync()
+
+    if(!response) return NextResponse.json({message: 'Failed to perform initial sync'}, {status: 500});
+
+    const { emails, deltaToken } = response
 }

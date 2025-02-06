@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SyncResponse, SyncUpdatedResponse } from "./types";
+import { EmailMessage, SyncResponse, SyncUpdatedResponse } from "./types";
 import { resolve } from "path";
 import { headers } from "next/headers";
 
@@ -52,9 +52,38 @@ export class Account {
 
             if(updatedResponse.nextDeltaToken) {
                 // completed sync
+                storedDeltaToken = updatedResponse.nextDeltaToken
             }
+
+            let allEmails: EmailMessage[] = updatedResponse.records
+
+            // fetch all pages if they are more
+            while(updatedResponse.nextPageToken) {
+                updatedResponse = await this.getUpdatedEmails(
+                    { 
+                        pageToken: updatedResponse.nextPageToken 
+                    }
+                )
+                allEmails = allEmails.concat(updatedResponse.records)
+                if(updatedResponse.nextDeltaToken) {
+                    // completed sync
+                    storedDeltaToken = updatedResponse.nextDeltaToken
+                }
+            }
+
+            console.log("All emails", allEmails.length, allEmails);
+            
+            return {
+                emails: allEmails,
+                deltaToken: storedDeltaToken
+            }
+
         } catch (error) {
-            console.log(error);
+            if(axios.isAxiosError(error)) {
+                console.log("Error during sync: ", JSON.stringify(error.response?.data))
+            } else {
+                console.log("Error during sync: ", error);
+            }
         }
     }
 }
