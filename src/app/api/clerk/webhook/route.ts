@@ -74,15 +74,21 @@ export const POST = async (req: Request) => {
     const imageUrl = data.data.image_url
     const id = data.data.id
     
-    await db.user.create({
-        data: {
-            id: id,
+    await db.user.upsert({
+        where: { emailAddress: emailAddress },
+        update: {
+            firstName: firstname,
+            lastName: lastname,
+            imageUrl: imageUrl,
+        },
+        create: {
             emailAddress: emailAddress,
             firstName: firstname,
             lastName: lastname,
-            imageUrl: imageUrl
-        }
-    })
+            imageUrl: imageUrl,
+        },
+    });
+
     console.log("user created----------------------------------------------------------------");
     
     return new Response("ok", {status: 200})

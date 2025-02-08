@@ -10,26 +10,25 @@ import axios from "axios";
 export const GET = async (req: NextRequest, res: Response) => {
     const { userId } = await auth();
     if(!userId) NextResponse.json({message: 'Unauthorized'}, {status: 401});
-    console.log(userId); 
-
+    
     const params = req.nextUrl.searchParams;
     const status = params.get('status');
     if(status !== 'success') return NextResponse.json({message: 'Failed to link account'}, {status: 400});
-
+    
     // code to exchange for access token
     const code = params.get('code')
     if(!code) return NextResponse.json({message: 'Code not found'}, {status: 400});
-
+    
     const token = await exchangeCodeForToken(code)
     if(!token) return NextResponse.json({message: 'Failed to exchange code for token'}, {status: 400});
-
-    const accountDetails = await getAccountDetails(token.accessToken)
-    // console.log("accountDetails", accountDetails);
-    // console.log("token", token);
-    // console.log("userId", userId);
     
-
-
+    const accountDetails = await getAccountDetails(token.accessToken)
+    
+    console.log("userId", userId); 
+    console.log("accountDetails", accountDetails);
+    console.log("token", token);
+    console.log("userId", userId);
+    
     await db.account.upsert({
         where: {
             id: token.accountId.toString()
