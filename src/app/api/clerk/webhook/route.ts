@@ -83,7 +83,8 @@ export const POST = async (req: Request) => {
             imageUrl: imageUrl
         }
     })
-
+    console.log("user created----------------------------------------------------------------");
+    
     return new Response("ok", {status: 200})
     
 }
